@@ -1,0 +1,34 @@
+---
+title: "individual1"
+author: "Jacob Shoemaker; jshoemaker2249"
+date: "2/19/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+HAPPY <- readRDS("HAPPY.rds")
+```
+
+##Data Cleaning
+1.
+```{r}
+HAPPY$POLVIEWS[HAPPY$POLVIEWS %in% c("IAP", "DK", "NA")] <- NA
+HAPPY$PARTYID[HAPPY$PARTYID %in% c("IAP", "DK", "NA")] <- NA
+HAPPY$HEALTH[HAPPY$HEALTH %in% c("IAP", "DK", "NA")] <- NA
+HAPPY$FINRELA[HAPPY$FINRELA %in% c("IAP", "DK", "NA")] <- NA
+HAPPY$DEGREE[HAPPY$DEGREE %in% c("IAP", "DK", "NA")] <- NA
+HAPPY$MARITAL[HAPPY$MARITAL %in% c("IAP", "DK", "NA")] <- NA
+HAPPY$SEX[HAPPY$SEX %in% c("IAP", "DK", "NA")] <- NA
+HAPPY$HAPPY[HAPPY$HAPPY %in% c("IAP", "DK", "NA")] <- NA
+```
+
+2. 
+```{r}
+
+```
+
+
