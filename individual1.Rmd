@@ -54,16 +54,23 @@ HAPPY$POLVIEWS <- factor(HAPPY$POLVIEWS, levels = c("EXTREMELY LIBERAL", "LIBERA
 ##Data Exploration
 
 1. 
-```{r}
+```{r Variable Distribution}
+#distribution of sex by age
+ggplot(HAPPY, aes(x=AGE, fill= SEX)) + geom_bar(na.rm = TRUE) + ggtitle("Distribution of sex by age")
 
+#distribution of degree by sex
+ggplot(HAPPY, aes(x=SEX, fill=DEGREE))+ geom_bar(na.rm = TRUE) + ggtitle("Distribution of degree by sex")
 ```
 
 2.
 ```{r}
+ggplot(HAPPY, aes(x=HAPPY, y=AGE, col=SEX)) + geom_boxplot(na.rm = TRUE)+ xlab("Happiness level")+ ggtitle("Happiness and age")
+
+
+ggplot(HAPPY) + geom_mosaic(aes(x= SEX, fill=HAPPY)) + facet_grid()
+
+ggplot(HAPPY, aes(x=HAPPY )) + geom_histogram(stat='count') +facet_wrap(~SEX) +coord_flip() +ylab('Happiness Level')+ ggtitle('Gender Vs Happiness Level')
 
 ```
 
 3.
-```{r}
-
-```
