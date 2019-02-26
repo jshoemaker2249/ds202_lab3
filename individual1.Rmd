@@ -27,7 +27,7 @@ HAPPY$HAPPY <- as.factor(HAPPY$HAPPY)
 HAPPY$AGE <- as.numeric(HAPPY$AGE)
 HAPPY$SEX <- as.factor(HAPPY$SEX)
 HAPPY$MARITAL <- as.factor(HAPPY$MARITAL)
-HAPPY$AGE[HAPPY$AGE == "89 OR OLDER"] <- 89
+HAPPY$AGE <- ifelse(HAPPY$AGE == "89 OR OLDER", 89, HAPPY$AGE)
 HAPPY$DEGREE <- as.factor(HAPPY$DEGREE)
 HAPPY$FINRELA <- as.factor(HAPPY$FINRELA)
 HAPPY$HEALTH <- as.factor(HAPPY$HEALTH)
@@ -59,21 +59,35 @@ HAPPY$MARITAL <- factor(HAPPY$MARITAL, levels = c("NEVER MARRIED", "SEPARATED", 
 
 ##Data Exploration
 
-1. 
+1.  
 ```{r Variable Distribution}
+library(ggplot2)
 #distribution of sex by age
-ggplot(HAPPY, aes(x=AGE, fill= SEX)) + geom_bar(na.rm = TRUE) + ggtitle("Distribution of sex by age")
+ggplot(HAPPY, aes(x=HAPPY, fill= MARITAL)) + geom_bar(na.rm = TRUE) + ggtitle("Distribution of Happiness and Marital Status") + xlab("Happiness") + ylab("Count")
 
 #distribution of degree by sex
-ggplot(HAPPY, aes(x=SEX, fill=DEGREE))+ geom_bar(na.rm = TRUE) + ggtitle("Distribution of degree by sex")
-```
+ggplot(HAPPY, aes(x=HAPPY, fill=FINRELA))+ geom_bar(na.rm = TRUE) + ggtitle("Distribution of Happiness and Opinion of Family Income") + ylab("Count") + xlab("Happiness") + guides(fill=guide_legend(title="Opinion of Family Income"))
+```  
+
+
+The first graph shows the distribution of happiness in relationship to marital status. From this, we can see that there is a signicant proportion of people in the "pretty happy" category that have never been married. At the same time, people that considered themselves to be "very happy" tend to be married rather than divorced. The second graph looks into the relationship between percepted financial standing and happiness. As you can see, to make the jump from "pretty happy" to "very happy," it appears that being at least average in terms of financial stability is necessary.
+
 
 2.
 ```{r}
-ggplot(HAPPY, aes(x=HAPPY, y=AGE, col=SEX)) + geom_boxplot(na.rm = TRUE)+ xlab("Happiness level")+ ggtitle("Happiness and age")
+ggplot(HAPPY, aes(x=HAPPY, y=AGE, col=SEX)) + geom_boxplot(na.rm = TRUE)+ xlab("Happiness Level")+ ggtitle("Happiness and Age") + ylab("Age")
 
 
-ggplot(HAPPY) + geom_mosaic(aes(x= SEX, fill=HAPPY)) + facet_grid()
+
+library(ggmosaic)
+#color
+#size
+#2 more geoms
+#scale
+#coord_flip
+#facet
+
+
 
 
 ```
