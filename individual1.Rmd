@@ -69,7 +69,6 @@ ggplot(HAPPY, aes(x=HAPPY, y=AGE, col=SEX)) + geom_boxplot(na.rm = TRUE)+ xlab("
 
 ggplot(HAPPY) + geom_mosaic(aes(x= SEX, fill=HAPPY)) + facet_grid()
 
-ggplot(HAPPY, aes(x=HAPPY )) + geom_histogram(stat='count') +facet_wrap(~SEX) +coord_flip() +ylab('Happiness Level')+ ggtitle('Gender Vs Happiness Level')
 
 ```
 
