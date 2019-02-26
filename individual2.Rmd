@@ -1,0 +1,132 @@
+---
+title: "individual2"
+author: "Qinwen Yang, AngelQinwen"
+date: "2/19/2019"
+output: html_document
+---
+
+
+```{r}
+data(happy, package="productplots")
+HAPPY <- readRDS("HAPPY.rds")
+View(HAPPY)
+
+```
+
+#PART ONE:
+
+Q1: Data cleaning: the values “IAP”, “DK” and “NA” all encode missing values. Replace all of these instances by the value NA.
+```{r}
+
+#sum(is.na(HAPPY$AGE))
+#sum(is.na(HAPPY$HAPPY))
+
+
+#Check if there are NA vaules:
+sum(is.na(HAPPY))
+HAPPY[HAPPY == "IAP" | HAPPY == "DK"| HAPPY == "NA"] <- NA
+View(HAPPY)
+str(HAPPY)
+
+
+
+
+```
+
+Q2: Check the type of the variable and cast into the right type (factor variable for categorical variables). For age, change “89 OR OLDER” to 89 and assume the variable should be numeric. (Hint: see ?as.character and ?as.numeric)
+```{r}
+
+HAPPY$HAPPY <- as.factor(HAPPY$HAPPY)
+HAPPY$SEX <- as.factor(HAPPY$SEX)
+HAPPY$MARITAL <- as.factor(HAPPY$MARITAL)
+HAPPY$DEGREE <- as.factor(HAPPY$DEGREE)
+HAPPY$FINRELA <- as.factor(HAPPY$FINRELA)
+HAPPY$HEALTH <- as.factor(HAPPY$HEALTH)
+HAPPY$PARTYID <- as.factor(HAPPY$PARTYID)
+HAPPY$POLVIEWS <- as.factor(HAPPY$POLVIEWS)
+HAPPY$AGE <- as.numeric(HAPPY$AGE)
+HAPPY$AGE <- ifelse(HAPPY$AGE >= 89, 89, HAPPY$AGE)
+str(HAPPY)
+
+
+
+
+
+```
+
+Q3:Bring all levels of factors into a sensible order. For marital you could e.g. order the levels according to average age.
+```{r}
+#Order HAPPY
+unique(HAPPY$HAPPY)
+HAPPY$HAPPY <- factor(HAPPY$HAPPY, levels = c('NOT TOO HAPPY', 'VERY HAPPY', 'PRETTY HAPPY'))
+HAPPY$HAPPY
+
+#Order SEX
+HAPPY$SEX <- factor(HAPPY$SEX, levels = c('FEMALE', 'MALE'))
+HAPPY$SEX
+
+#Order MARITAL
+unique(HAPPY$MARITAL)
+mean(HAPPY$AGE[HAPPY$MARITAL == "NEVER MARRIED"], na.rm = T)
+mean(HAPPY$AGE[HAPPY$MARITAL == "MARRIED"], na.rm = T)
+mean(HAPPY$AGE[HAPPY$MARITAL == "DIVORCED"], na.rm = T)
+mean(HAPPY$AGE[HAPPY$MARITAL == "SEPARATED"], na.rm = T)
+mean(HAPPY$AGE[HAPPY$MARITAL == "WIDOWED"], na.rm = T)
+HAPPY$MARITAL <- factor(HAPPY$MARITAL, levels = c('NEVER MARRIED', 'SEPARATED', 'MARRIED', 'DIVORCED', 'WIDOWED'))
+HAPPY$MARITAL
+#Order DEGREE
+unique(HAPPY$DEGREE)
+HAPPY$DEGREE <- factor(HAPPY$DEGREE, levels = c('LT HIGH SCHOOL', 'HIGH SCHOOL','JUNIOR COLLEGE', 'BACHELOR', 'GRADUATE'))
+HAPPY$DEGREE
+#Order FINRELA
+unique(HAPPY$FINRELA)
+HAPPY$FINRELA <- factor(HAPPY$FINRELA, levels = c('FAR BELOW AVERAGE', 'BELOW AVERAGE', 'AVERAGE', 'ABOVE AVERAGE', 'FAR ABOVE AVERAGE'))
+HAPPY$FINRELA
+#Order HEALTH
+unique(HAPPY$HEALTH)
+HAPPY$HEALTH <- factor(HAPPY$HEALTH, levels = c('POOR', 'FAIR', 'GOOD', 'EXCELLENT'))
+HAPPY$HEALTH
+#Order PARTYID
+unique(HAPPY$PARTYID)
+HAPPY$PARTYID <- factor(HAPPY$PARTYID, levels = c('STRONG DEMOCRAT', 'NOT STR DEMOCRAT', 'IND,NEAR DEM","INDEPENDENT', 'IND,NEAR REP','NOT STR REPUBLICAN', 'STRONG REPUBLICAN', 'INDEPENDENT'))
+HAPPY$PARTYID
+#Order POLVIEWS
+unique(HAPPY$POLVIEWS)
+HAPPY$POLVIEWS <- factor(HAPPY$POLVIEWS, levels=c('SLIGHTLY LIBERA', 'LIBERA', 'EXTREMELY LIBERAL', 'MODERATE', 'SLGHTLY CONSERVATIVE', 'CONSERVATIVE','EXTRMLY CONSERVATIVE'))
+HAPPY$POLVIEWS
+
+```
+
+#PART TWO:
+
+Q1: Investigate the distributions of 2 different variables.
+```{r}
+library(ggplot2)
+
+ggplot(HAPPY, aes(x=HAPPY, fill = SEX))+geom_bar(color="purple")+ylab('Total Number')
+```
+In this plot, we can see most people(Female and Male) are in PRETTY HAPPY area, and there are less people in NOT TOO HAPPY area. Also, compare with female and male, we are able to conclue that female is happier than male in general.
+
+Q2: Investigate the relationship between happiness and three other variables in the data.
+```{r}
+
+
+
+library(ggmosaic)
+ggplot(HAPPY)+geom_mosaic(aes(x=product(SEX), fill=HAPPY))
+ggplot(HAPPY, aes(x=HAPPY, fill = HEALTH ))+geom_bar(na.rm = FALSE, color="black", size = 1.5)+ylab('Total Number')
+ggplot(HAPPY, aes(x=HAPPY, fill = SEX))+geom_bar(color="purple")+ylab('Total Number')
+ggplot(HAPPY, aes(x=HAPPY, fill = MARITAL))+geom_bar(na.rm=FALSE, color="black", size = 0.5)+ylab('Total Number')
+ggplot(HAPPY, aes(x=HAPPY, fill= DEGREE))+geom_bar(na.rm = FALSE, color="black")+ylab('Total Number')
+#ggplot(HAPPY)+geom_mosaic(aes(x=product(HAPPY), fill=SEX))+facet_grid(~MARITAL)
+
+
+```
+
+Q3:What do you learn from the data set? Write one or two paragraphs to describe.
+
+From the dataset, we are able to conclude that generally most female is happier than male. People who are in good and excellent health are happier than the people who are in poor health. People who have married is happier than separated and divorced.Most never married people are pretty happy, but few of them are not too happy, and it might includes students who with acdemic stress. From education degree, we can see the people in high school degree is occupy a large proportion in pretty happy and very happy area, and people in junior college are less happier.
+
+
+
+
