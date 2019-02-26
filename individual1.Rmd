@@ -16,14 +16,9 @@ HAPPY <- readRDS("HAPPY.rds")
 ##Data Cleaning
 1.
 ```{r}
-HAPPY$POLVIEWS[HAPPY$POLVIEWS %in% c("IAP", "DK", "NA")] <- NA
-HAPPY$PARTYID[HAPPY$PARTYID %in% c("IAP", "DK", "NA")] <- NA
-HAPPY$HEALTH[HAPPY$HEALTH %in% c("IAP", "DK", "NA")] <- NA
-HAPPY$FINRELA[HAPPY$FINRELA %in% c("IAP", "DK", "NA")] <- NA
-HAPPY$DEGREE[HAPPY$DEGREE %in% c("IAP", "DK", "NA")] <- NA
-HAPPY$MARITAL[HAPPY$MARITAL %in% c("IAP", "DK", "NA")] <- NA
-HAPPY$SEX[HAPPY$SEX %in% c("IAP", "DK", "NA")] <- NA
-HAPPY$HAPPY[HAPPY$HAPPY %in% c("IAP", "DK", "NA")] <- NA
+
+HAPPY[HAPPY == "IAP" | HAPPY == "DK" | HAPPY == "NA"] <- NA
+
 ```
 
 2. 
