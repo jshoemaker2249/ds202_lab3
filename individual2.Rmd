@@ -20,7 +20,6 @@ HAPPY <- readRDS("HAPPY.rds")
 Q1: Data cleaning: the values “IAP”, “DK” and “NA” all encode missing values. Replace all of these instances by the value NA.
 ```{r}
 HAPPY[HAPPY == "IAP" | HAPPY == "DK"| HAPPY == "NA"] <- NA
-View(HAPPY)
 str(HAPPY)
 
 ```
@@ -96,6 +95,7 @@ ggplot(HAPPY, aes(x=HAPPY, fill = SEX))+geom_bar(na.rm=TRUE, color="purple",size
 ggplot(HAPPY, aes(x=HEALTH, fill=MARITAL))+geom_bar(na.rm=TRUE, color="black",size=0.3)+ ylab('Total Number')+xlab("Health")+ggtitle("Relationship between HEALTH and MARITAL")
 ```
 According to the relationship between HAPPY and SEX, we can see that most people(Female and Male) are in PRETTY HAPPY area, and there are less people in NOT TOO HAPPY area. Also, in PRETTY HAPPY and VERY HAPPY area, compare with female and male, it shows female's proportion is larger than male's proportion. In the plot of relationship between HEALTH and MARITAL, there are huge proportion of people in the good health area, and it also shows MARRIED people are tend to have good health than divorced or widowed people.
+
 Q2: Investigate the relationship between happiness and three other variables in the data.
 ```{r}
 library(ggmosaic)

@@ -62,3 +62,28 @@ mean(HAPPY$AGE[HAPPY$MARITAL == "WIDOWED"], na.rm = TRUE)
 #Order Marital Status in ascending order of these averages
 HAPPY$MARITAL <- factor(HAPPY$MARITAL, levels = c("NEVER MARRIED", "SEPARATED", "MARRIED", "DIVORCED", "WIDOWED"))
 ```
+
+2. Data Exploring
+
+#Investigate the distributions of 2 different variables
+```{r}
+
+library(ggplot2)
+
+ggplot(HAPPY, aes(x=HAPPY, fill = SEX))+geom_bar(na.rm=TRUE, color="purple",size=0.5)+ylab('Total Number')+xlab('Happiness')+ggtitle("Relationship between HAPPY and SEX")
+
+ggplot(HAPPY, aes(x=HEALTH, fill=MARITAL))+geom_bar(na.rm=TRUE, color="black",size=0.3)+ ylab('Total Number')+xlab("Health")+ggtitle("Relationship between HEALTH and MARITAL")
+
+
+
+```
+
+#Investigate the relationship between happiness and three other variables in the data.
+
+```{r}
+ggplot(HAPPY, aes(x=HAPPY, fill= DEGREE))+geom_bar(na.rm = TRUE, color="black", size = 0.3)+xlab('Happiness')+ylab('Total Number')+ggtitle("Relationship between Happy and degree")
+```
+
+#Explore the dataset yourself, and then discuss and refine answers as a team.
+
+
