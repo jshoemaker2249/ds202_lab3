@@ -63,7 +63,7 @@ HAPPY$MARITAL <- factor(HAPPY$MARITAL, levels = c("NEVER MARRIED", "SEPARATED", 
 ```{r Variable Distribution}
 library(ggplot2)
 #distribution of sex by age
-ggplot(HAPPY, aes(x=HAPPY, fill= MARITAL)) + geom_bar(na.rm = TRUE) + ggtitle("Distribution of Happiness and Marital Status") + xlab("Happiness") + ylab("Count")
+ggplot(HAPPY, aes(x=HAPPY, fill= MARITAL)) + geom_bar(na.rm = TRUE, color = "black", size=0.4) + ggtitle("Distribution of Happiness and Marital Status") + xlab("Happiness") + ylab("Count")
 
 #distribution of degree by sex
 ggplot(HAPPY, aes(x=HAPPY, fill=FINRELA))+ geom_bar(na.rm = TRUE) + ggtitle("Distribution of Happiness and Opinion of Family Income") + ylab("Count") + xlab("Happiness") + guides(fill=guide_legend(title="Opinion of Family Income"))
@@ -75,21 +75,18 @@ The first graph shows the distribution of happiness in relationship to marital s
 
 2.
 ```{r}
-ggplot(HAPPY, aes(x=HAPPY, y=AGE, col=SEX)) + geom_boxplot(na.rm = TRUE)+ xlab("Happiness Level")+ ggtitle("Happiness and Age") + ylab("Age")
-
-
+ggplot(HAPPY, aes(x=HAPPY, y=AGE, col=SEX)) + geom_boxplot(na.rm = TRUE)+ xlab("Happiness Level")+ ggtitle("Happiness and Age") + ylab("Age") + coord_flip()
 
 library(ggmosaic)
-#color
-#size
-#2 more geoms
-#scale
-#coord_flip
-#facet
+ggplot(HAPPY)+geom_mosaic(aes(x=product(HEALTH), fill=HAPPY)) + xlab("Health") + ylab("Happiness") + ggtitle("Mosaic Plot of Health and Happiness") + guides(fill=guide_legend(title="Happiness Level"))
 
-
-
+ggplot(HAPPY, aes(x= HAPPY, color = PARTYID)) + geom_density(alpha=0.3, na.rm = TRUE) + facet_wrap(~PARTYID, scales = "fixed") + theme(axis.text.x = element_text(angle = 90, hjust=1))
 
 ```
 
+
+Looking at the first boxplot, I can deduce that on average, women that are unhappy tend to be older than their unhappy male counterparts. This plot could be more beneficial to examine age of a specific happiness group. The second graph deomstrates the relationship between happiness and health. It highlights that if one is in poor health conditions, there is a much better chance of that person being unhappy. The third graph shows the distribution of happiness with respect to political party. One interesting comparison I made is between strong republicans and strong democrats. I noticed that the density curve is very similar. It would appear that regardless of the alignment, if one is firmly rooted in it, happiness compared between the two could be negligible.
+
 3.
+
+In conclusion, while we cannot say that one factor is more important in determining happiness over another, there are some that carry signficant weight. For example, those that are never married tend to be pretty happy rather than very happy or not too happy. In terms of financial standing, being below or far below average is more closely connected to being unable to make the jump from pretty happy to very happy. From health, being in poor health conditions is more closely related to being unhappy.
