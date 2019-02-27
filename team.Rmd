@@ -1,0 +1,10 @@
+---
+title: "Team.Rmd"
+author: "Jacob Shoemaker; jshoemaker2249, Qinwen Yang; AngelQinwen"
+date: "2/27/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
