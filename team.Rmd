@@ -72,18 +72,31 @@ library(ggplot2)
 
 ggplot(HAPPY, aes(x=HAPPY, fill = SEX))+geom_bar(na.rm=TRUE, color="purple",size=0.5)+ylab('Total Number')+xlab('Happiness')+ggtitle("Relationship between HAPPY and SEX")
 
-ggplot(HAPPY, aes(x=HEALTH, fill=MARITAL))+geom_bar(na.rm=TRUE, color="black",size=0.3)+ ylab('Total Number')+xlab("Health")+ggtitle("Relationship between HEALTH and MARITAL")
-
-
+#distribution of degree by sex
+ggplot(HAPPY, aes(x=HAPPY, fill=FINRELA))+ geom_bar(na.rm = TRUE, color= "black", size = 0.4) + ggtitle("Distribution of Happiness and Opinion of Family Income") + ylab("Count") + xlab("Happiness") + guides(fill=guide_legend(title="Opinion of Family Income"))
 
 ```
+
+
+As you can see here, there is certainly a noticeable difference in happiness depending one someone's sex. More females would consider themselves to be "pretty happy" than males, however this could potentially be explained by the fact that there are more females than males within the dataset. As for the relationship between financial stability and happiness, it would appear that those who are below or far below average in their opinion of their financial success are more likely to be unhappy.
+
 
 #Investigate the relationship between happiness and three other variables in the data.
 
 ```{r}
 ggplot(HAPPY, aes(x=HAPPY, fill= DEGREE))+geom_bar(na.rm = TRUE, color="black", size = 0.3)+xlab('Happiness')+ylab('Total Number')+ggtitle("Relationship between Happy and degree")
+
+ggplot(HAPPY, aes(x=HAPPY, y=AGE, fill=SEX)) + geom_boxplot(na.rm = TRUE, size=0.3)+ xlab("Happiness")+ ggtitle("Happiness and Age") + ylab("Age")+coord_flip() 
+
+library(ggmosaic)
+ggplot(HAPPY)+geom_mosaic(aes(x=product(HEALTH), fill=HAPPY)) + xlab("Health") + ylab("Happiness") + ggtitle("Mosaic Plot of Health and Happiness") + guides(fill=guide_legend(title="Happiness Level"))
 ```
 
-#Explore the dataset yourself, and then discuss and refine answers as a team.
+
+Starting with degree, there ratio of people that are unhappy with higher levels of education is certainly lower than those with solely a high school diploma. A potential reason for this is the job opportunities and income associated with more education. From an age standpoint, one could make the case that as a woman gets older, she tends to become more unhappy. Lastly, those in poor health condition tend to gravitate towards being unhappy, which certainly makes sense due to quality of life.
+
+
+#Final Team Analysis of Happiness
+From the dataset, we can't conclude that one factor have crucial effect than any other factors when determing people's happiness. But we are able to conclude that most female are happier than male. Health would effect happiness which poor health people are tend to become less happier, and people who are in good and excellent health are happier than the people who are in poor health. In addition, People who have married is happier than separated and divorced. In terms of financial standing, being below or far below average is more closely connected to being unable to make the jump from pretty happy to very happy. From health, being in poor health conditions is more closely related to being unhappy.
 
 
