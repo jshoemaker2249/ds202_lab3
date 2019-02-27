@@ -6,30 +6,22 @@ output: html_document
 ---
 
 
-```{r}
-data(happy, package="productplots")
-HAPPY <- readRDS("HAPPY.rds")
-View(HAPPY)
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#PART ONE:
+
+```{r}
+HAPPY <- readRDS("HAPPY.rds")
+```
+
+#PART ONE:(Cleaning Data)
 
 Q1: Data cleaning: the values “IAP”, “DK” and “NA” all encode missing values. Replace all of these instances by the value NA.
 ```{r}
-
-#sum(is.na(HAPPY$AGE))
-#sum(is.na(HAPPY$HAPPY))
-
-
-#Check if there are NA vaules:
-sum(is.na(HAPPY))
 HAPPY[HAPPY == "IAP" | HAPPY == "DK"| HAPPY == "NA"] <- NA
 View(HAPPY)
 str(HAPPY)
-
-
-
 
 ```
 
@@ -48,17 +40,13 @@ HAPPY$AGE <- as.numeric(HAPPY$AGE)
 HAPPY$AGE <- ifelse(HAPPY$AGE == "89 OR OLDER", 89, HAPPY$AGE)
 str(HAPPY)
 
-
-
-
-
 ```
 
 Q3:Bring all levels of factors into a sensible order. For marital you could e.g. order the levels according to average age.
 ```{r}
 #Order HAPPY
 unique(HAPPY$HAPPY)
-HAPPY$HAPPY <- factor(HAPPY$HAPPY, levels = c('NOT TOO HAPPY', 'VERY HAPPY', 'PRETTY HAPPY'))
+HAPPY$HAPPY <- factor(HAPPY$HAPPY, levels = c('NOT TOO HAPPY', 'PRETTY HAPPY', 'VERY HAPPY'))
 
 
 #Order SEX
@@ -97,37 +85,42 @@ HAPPY$POLVIEWS <- factor(HAPPY$POLVIEWS, levels=c('SLIGHTLY LIBERA', 'LIBERA', '
 
 ```
 
-#PART TWO:
+#PART TWO:(Exploration)
 
 Q1: Investigate the distributions of 2 different variables.
 ```{r}
 library(ggplot2)
 
-ggplot(HAPPY, aes(x=HAPPY, fill = SEX))+geom_bar(na.rm=TRUE, color="purple")+ylab('Total Number')+ggtitle("Relationship between HAPPY and SEX")
+ggplot(HAPPY, aes(x=HAPPY, fill = SEX))+geom_bar(na.rm=TRUE, color="purple",size=0.5)+ylab('Total Number')+xlab('Happiness')+ggtitle("Relationship between HAPPY and SEX")
 
-ggplot(HAPPY, aes(x=HEALTH, fill=MARITAL))+geom_bar(na.rm=TRUE, color="black")+ ylab('Total Number')+ggtitle("Relationship between HEALTH and MARITAL")
+ggplot(HAPPY, aes(x=HEALTH, fill=MARITAL))+geom_bar(na.rm=TRUE, color="black",size=0.3)+ ylab('Total Number')+xlab("Health")+ggtitle("Relationship between HEALTH and MARITAL")
 ```
-According to the relationship between HAPPY and SEX, we can see that most people(Female and Male) are in PRETTY HAPPY area, and there are less people in NOT TOO HAPPY area. Also, in PRETTY HAPPY area, compare with female and male, it shows female's proportion is larger than male's proportion, and in other area also shows similar phenomenon, thus we are able to conclue that most female are happier than male in general. In the plot of relationship between HEALTH and MARITAL, it shows MARITAL and HEALTH doesn't have amount relationship, since married people have large proportion not only GOOD health area, but also have large proportion in other area.
-
+According to the relationship between HAPPY and SEX, we can see that most people(Female and Male) are in PRETTY HAPPY area, and there are less people in NOT TOO HAPPY area. Also, in PRETTY HAPPY and VERY HAPPY area, compare with female and male, it shows female's proportion is larger than male's proportion. In the plot of relationship between HEALTH and MARITAL, there are huge proportion of people in the good health area, and it also shows MARRIED people are tend to have good health than divorced or widowed people.
 Q2: Investigate the relationship between happiness and three other variables in the data.
 ```{r}
-
-
-
 library(ggmosaic)
-ggplot(HAPPY)+geom_mosaic(aes(x=product(SEX), fill=HAPPY))
-ggplot(HAPPY, aes(x=HAPPY, fill = HEALTH ))+geom_bar(na.rm = FALSE, color="black", size = 1.5)+ylab('Total Number')
-ggplot(HAPPY, aes(x=HAPPY, fill = SEX))+geom_bar(color="purple")+ylab('Total Number')
-ggplot(HAPPY, aes(x=HAPPY, fill = MARITAL))+geom_bar(na.rm=FALSE, color="black", size = 0.5)+ylab('Total Number')
-ggplot(HAPPY, aes(x=HAPPY, fill= DEGREE))+geom_bar(na.rm = FALSE, color="black")+ylab('Total Number')
-ggplot(HAPPY)+geom_mosaic(aes(x=product(HAPPY), fill=SEX))+facet_grid(~MARITAL)
+ggplot(HAPPY)+geom_mosaic(aes(x=product(HEALTH), fill=HAPPY)) + xlab("Health") + ylab("Happiness") + ggtitle("Relationship between Health and Happiness") + guides(fill=guide_legend(title="Happiness Level"))
+
+ggplot(HAPPY, aes(x=HAPPY, fill= DEGREE))+geom_bar(na.rm = TRUE, color="black", size = 0.3)+xlab('Happiness')+ylab('Total Number')+ggtitle("Relationship between Happy and degree")
+
+
+ggplot(HAPPY, aes(x=HAPPY, y=AGE, fill=SEX)) + geom_boxplot(na.rm = TRUE, size=0.3)+ xlab("Happiness")+ ggtitle("Happiness and Age") + ylab("Age") 
+
+#Flip the coordinate from above plot
+ggplot(HAPPY, aes(x=HAPPY, y=AGE, fill=SEX)) + geom_boxplot(na.rm = TRUE, size=0.3)+ xlab("Happiness")+ ggtitle("Happiness and Age") + ylab("Age")+coord_flip() 
+
+
+
 
 
 ```
+In the relationship between Health and Happiness, most people who have a good health are PRETTY HAPPY while less people with poor health are PRETTY HAPPY. So a peson's mood would effect by their health. In the plot of relationship between Happy and degree, PRETTY HAPPY area have large amount of people, and people with high school degree is happier than people with Junior College and graduate degree in the PRETTY HAPPY area, but in the NOT TOO HAPPY area, there are less people in Junior College, graudate and Bachelor degree are unhappy.In the last plot,the relationship between Happiness and Age, in NOT TOO HAPPY and PRETTY HAPPY area, male's boxplot is lower than female's boxplot. We can conclue that compare with male, female is tend to become NOT TOO HAPPY in older age.
+
+
 
 Q3:What do you learn from the data set? Write one or two paragraphs to describe.
 
-From the dataset, we are able to conclude that generally most female is happier than male. People who are in good and excellent health are happier than the people who are in poor health. People who have married is happier than separated and divorced.Most never married people are pretty happy, but few of them are not too happy, and it might includes students who with acdemic stress. From education degree, we can see the people in high school degree is occupy a large proportion in pretty happy and very happy area, and people in junior college are less happier.
+From the dataset, we can't conclude that one factor have crucial effect than any other factors when determing people's happiness. But we are able to conclude that most female are happier than male. Health would effect happiness which poor health people are tend to become less happier, and people who are in good and excellent health are happier than the people who are in poor health. In addition, People who have married is happier than separated and divorced.
 
 
 
