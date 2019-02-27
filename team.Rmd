@@ -8,3 +8,57 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+1. Data Cleaning
+```{r}
+HAPPY <- readRDS("HAPPY.rds")
+```
+
+```{r}
+HAPPY[HAPPY == "IAP" | HAPPY == "DK"| HAPPY == "NA"] <- NA
+```
+
+```{r}
+HAPPY$HAPPY <- as.factor(HAPPY$HAPPY)
+HAPPY$SEX <- as.factor(HAPPY$SEX)
+HAPPY$MARITAL <- as.factor(HAPPY$MARITAL)
+HAPPY$DEGREE <- as.factor(HAPPY$DEGREE)
+HAPPY$FINRELA <- as.factor(HAPPY$FINRELA)
+HAPPY$HEALTH <- as.factor(HAPPY$HEALTH)
+HAPPY$PARTYID <- as.factor(HAPPY$PARTYID)
+HAPPY$POLVIEWS <- as.factor(HAPPY$POLVIEWS)
+HAPPY$AGE <- as.numeric(HAPPY$AGE)
+HAPPY$AGE <- ifelse(HAPPY$AGE == "89 OR OLDER", 89, HAPPY$AGE)
+```
+
+```{r}
+#Order Degree
+HAPPY$DEGREE <- factor(HAPPY$DEGREE, levels = c("LT HIGH SCHOOL", "HIGH SCHOOL", "JUNIOR COLLEGE", "BACHELOR", "GRADUATE"))
+
+#Order Opinion of Financial Standing
+HAPPY$FINRELA <- factor(HAPPY$FINRELA, levels = c("FAR BELOW AVERAGE", "BELOW AVERAGE", "AVERAGE", "ABOVE AVERAGE", "FAR ABOVE AVERAGE"))
+
+#Order Health
+HAPPY$HEALTH <- factor(HAPPY$HEALTH, levels = c("POOR", "FAIR", "GOOD", "EXCELLENT"))
+
+#Order Political Party
+HAPPY$PARTYID <- factor(HAPPY$PARTYID, levels= unique(c("STRONG DEMOCRAT", "NOT STR DEMOCRAT", "IND,NEAR DEM","INDEPENDENT", "IND,NEAR REP", "NOT STR REPUBLICAN", "STRONG REPUBLICAN", "INDEPENDENT")))
+
+#Order Political Views
+HAPPY$POLVIEWS <- factor(HAPPY$POLVIEWS, levels = c("EXTREMELY LIBERAL", "LIBERAL", "SLIGHTLY LIBERAL", "MODERATE", "SLIGHTLY CONSERVATIVE", "CONSERVATIVE", "EXTRMLY CONSERVATIVE"))
+
+#Order Happiness Level
+HAPPY$HAPPY <- factor(HAPPY$HAPPY, levels = c("NOT TOO HAPPY", "PRETTY HAPPY", "VERY HAPPY"))
+
+
+#Find average age of each marital status
+mean(HAPPY$AGE[HAPPY$MARITAL == "NEVER MARRIED"], na.rm = TRUE)
+mean(HAPPY$AGE[HAPPY$MARITAL == "MARRIED"], na.rm = TRUE)
+mean(HAPPY$AGE[HAPPY$MARITAL == "SEPARATED"], na.rm = TRUE)
+mean(HAPPY$AGE[HAPPY$MARITAL == "DIVORCED"], na.rm = TRUE)
+mean(HAPPY$AGE[HAPPY$MARITAL == "WIDOWED"], na.rm = TRUE)
+
+#Order Marital Status in ascending order of these averages
+HAPPY$MARITAL <- factor(HAPPY$MARITAL, levels = c("NEVER MARRIED", "SEPARATED", "MARRIED", "DIVORCED", "WIDOWED"))
+```
